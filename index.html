@@ -16,6 +16,72 @@
     - custom css link
   -->
   <link rel="stylesheet" href="./style.css">
+  
+  <style>
+    /* Cart Booking Item Styles */
+    .booking-item {
+      background-color: #f8f4e9;
+      border-left: 4px solid #ff9d2d;
+      padding: 15px !important;
+      margin-bottom: 15px;
+    }
+    
+    .booking-details {
+      font-size: 0.9em;
+      margin: 8px 0;
+      padding-left: 10px;
+      border-left: 2px solid #eee;
+    }
+    
+    .booking-details p {
+      margin: 5px 0;
+    }
+    
+    .cart-item.booking-item .cart-item-name {
+      font-weight: bold;
+      color: #ff9d2d;
+      font-size: 1.1em;
+      margin-bottom: 5px;
+      display: block;
+    }
+    
+    .cart-item.booking-item .cart-item-actions button {
+      background-color: #e0e0e0;
+      color: #333;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    
+    .cart-item.booking-item .cart-item-actions button:hover {
+      background-color: #c0c0c0;
+    }
+    
+    /* Highlight free booking */
+    .cart-item.booking-item .cart-item-price span:first-child,
+    .cart-item.booking-item .cart-item-total {
+      background-color: #4CAF50;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      display: inline-block;
+    }
+    
+    .free-badge {
+      display: inline-block;
+      animation: bounce 1s infinite alternate;
+      margin-left: 3px;
+    }
+    
+    @keyframes bounce {
+      from { transform: scale(1); }
+      to { transform: scale(1.3); }
+    }
+  </style>
 
   <!-- 
     - google font link
@@ -40,21 +106,14 @@
   <!-- 
     - #HEADER
   -->
-  <div class="container">
   <header class="header" data-header>
-  
-
-             <h1>
-               <a href="#" class="logo">Foodie<span class="span">.</span></a>
-             </h1>
-           
-  
-
- 
+    <div class="container">
+      <h1>
+        <a href="#" class="logo">Foodie<span class="span">.</span></a>
+      </h1>
       
       <nav class="navbar" data-navbar>
         <ul class="navbar-list">
-
           <li class="nav-item">
             <a href="#home" class="navbar-link" data-nav-link>Home</a>
           </li>
@@ -68,37 +127,37 @@
           </li>
 
           <li class="nav-item">
-            <a href="#blog" class="navbar-link" data-nav-link>Blog</a>
-          </li>
-
-          <li class="nav-item">
             <a href="#" class="navbar-link" data-nav-link>Contact Us</a>
           </li>
-
         </ul>
       </nav>
    
       <div class="iconcart">
-        <button class="view-cart-btn" onclick="openCart()">
+        <!-- Button to open cart popup -->
+        <button type="button" class="view-cart-btn" id="open-cart-btn" onclick="openCart();" style="background: none; border: none; cursor: pointer; padding: 0;">
           <svg viewBox="0 0 18 20" class="svg" xmlns="http://www.w3.org/2000/svg" fill="none">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1" />
+              d="M6 15a2 2 0 1 0 0 4a2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4a2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1" />
           </svg>
           <span>0</span>
         </button>
       </div>
+
+      <!-- Cart popup -->
       <div id="cart-popup" class="cart-popup">
         <div class="cart-content">
-          <span class="close-btn" onclick="closeCart()">&times;</span>
+          <span class="close-btn" id="close-cart-btn" onclick="closeCart();">&times;</span>
           <h2>Your Cart</h2>
           <ul id="cart-items"></ul>
           <h3 id="cart-total"></h3>
+          <!-- Fallback checkout button that's always in the DOM -->
+          <div id="fallback-checkout" style="display: none; margin-top: 20px; text-align: center;">
+            <button class="checkout-btn" onclick="showOrderConfirmation()" style="width: 100%; padding: 12px;">Proceed to Checkout</button>
+          </div>
         </div>
       </div>
-
     </div>
   </header>
- </div>
 
 
 
@@ -140,7 +199,7 @@
         - #HERO
       -->
 
-      <section class="hero" id="home" style="background-image: url('./assets/images/hero-bg.jpg')">
+      <section class="hero" id="home" style="background-image: url('./assets/images/hero-bg.jpg');">
         <div class="container">
 
           <div class="hero-content">
@@ -1273,7 +1332,7 @@
                 Your go-to spot for delicious, no-fuss comfort food!
             </p>
 
-            <button class="btn btn-hover">Order Now</button>
+            <a href="#pizza_menu"><button class="btn btn-hover">Order Now</button></a>
           </div>
 
           <figure class="cta-banner">
@@ -1310,7 +1369,7 @@
                 Perfect bites, perfect timing, every single time!
             </p>
 
-            <button class="btn btn-hover">Order Now</button>
+            <a href="#pizza_menu"><button class="btn btn-hover">Order Now</button></a>
           </div>
 
           <figure class="delivery-banner">
@@ -1366,8 +1425,7 @@
                 </div>
 
                 <blockquote class="testi-text">
-                  "I would be lost without restaurant. I would like to personally thank you for your outstanding
-                  product."
+                  “Every visit to your restaurant is a delight. The flavors, the ambiance, the service — everything is just perfect. It's become my go-to place for client lunches.”
                 </blockquote>
 
                 <div class="rating-wrapper">
@@ -1399,8 +1457,7 @@
                 </div>
 
                 <blockquote class="testi-text">
-                  "I would be lost without restaurant. I would like to personally thank you for your outstanding
-                  product."
+                   “Exceptional food and even better hospitality. It's rare to find a place that gets both so right. I always recommend it to friends and colleagues.”
                 </blockquote>
 
                 <div class="rating-wrapper">
@@ -1432,8 +1489,9 @@
                 </div>
 
                 <blockquote class="testi-text">
-                  "I would be lost without restaurant. I would like to personally thank you for your outstanding
-                  product."
+                “I’ve dined in many restaurants around the world, but yours stands out. The consistency in quality and taste is impressive. Truly a five-star experience.”
+
+
                 </blockquote>
 
                 <div class="rating-wrapper">
@@ -1549,166 +1607,7 @@
         - #BLOG
       -->
 
-      <section class="section section-divider white blog" id="blog">
-        <div class="container">
-
-          <p class="section-subtitle">Latest Blog Posts</p>
-
-          <h2 class="h2 section-title">
-            This Is All About <span class="span">Foods</span>
-          </h2>
-
-          <p class="section-text">
-            Food is any substance consumed to provide nutritional support for an organism.
-          </p>
-
-          <ul class="blog-list">
-
-            <li>
-              <div class="blog-card">
-
-                <div class="card-banner">
-                  <img src="./assets/images/blog-1.jpg" width="600" height="390" loading="lazy"
-                    alt="What Do You Think About Cheese Pizza Recipes?" class="w-100">
-
-                  <div class="badge">Pizza</div>
-                </div>
-
-                <div class="card-content">
-
-                  <div class="card-meta-wrapper">
-
-                    <a href="#" class="card-meta-link">
-                      <ion-icon name="calendar-outline"></ion-icon>
-
-                      <time class="meta-info" datetime="2022-01-01">Jan 01 2022</time>
-                    </a>
-
-                    <a href="#" class="card-meta-link">
-                      <ion-icon name="person-outline"></ion-icon>
-
-                      <p class="meta-info">Jonathan Smith</p>
-                    </a>
-
-                  </div>
-
-                  <h3 class="h3">
-                    <a href="#" class="card-title">What Do You Think About Cheese Pizza Recipes?</a>
-                  </h3>
-
-                  <p class="card-text">
-                    Financial experts support or help you to to find out which way you can raise your funds more...
-                  </p>
-
-                  <a href="#" class="btn-link">
-                    <span>Read More</span>
-
-                    <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
-                  </a>
-
-                </div>
-
-              </div>
-            </li>
-
-            <li>
-              <div class="blog-card">
-
-                <div class="card-banner">
-                  <img src="./assets/images/blog-2.jpg" width="600" height="390" loading="lazy"
-                    alt="Making Chicken Strips With New Delicious Ingridents." class="w-100">
-
-                  <div class="badge">Burger</div>
-                </div>
-
-                <div class="card-content">
-
-                  <div class="card-meta-wrapper">
-
-                    <a href="#" class="card-meta-link">
-                      <ion-icon name="calendar-outline"></ion-icon>
-
-                      <time class="meta-info" datetime="2022-01-01">Jan 01 2022</time>
-                    </a>
-
-                    <a href="#" class="card-meta-link">
-                      <ion-icon name="person-outline"></ion-icon>
-
-                      <p class="meta-info">Jonathan Smith</p>
-                    </a>
-
-                  </div>
-
-                  <h3 class="h3">
-                    <a href="#" class="card-title">Making Chicken Strips With New Delicious Ingridents.</a>
-                  </h3>
-
-                  <p class="card-text">
-                    Financial experts support or help you to to find out which way you can raise your funds more...
-                  </p>
-
-                  <a href="#" class="btn-link">
-                    <span>Read More</span>
-
-                    <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
-                  </a>
-
-                </div>
-
-              </div>
-            </li>
-
-            <li>
-              <div class="blog-card">
-
-                <div class="card-banner">
-                  <img src="./assets/images/blog-3.jpg" width="600" height="390" loading="lazy"
-                    alt="Innovative Hot Chessyraw Pasta Make Creator Fact." class="w-100">
-
-                  <div class="badge">Chicken</div>
-                </div>
-
-                <div class="card-content">
-
-                  <div class="card-meta-wrapper">
-
-                    <a href="#" class="card-meta-link">
-                      <ion-icon name="calendar-outline"></ion-icon>
-
-                      <time class="meta-info" datetime="2022-01-01">Jan 01 2022</time>
-                    </a>
-
-                    <a href="#" class="card-meta-link">
-                      <ion-icon name="person-outline"></ion-icon>
-
-                      <p class="meta-info">Jonathan Smith</p>
-                    </a>
-
-                  </div>
-
-                  <h3 class="h3">
-                    <a href="#" class="card-title">Innovative Hot Chessyraw Pasta Make Creator Fact.</a>
-                  </h3>
-
-                  <p class="card-text">
-                    Financial experts support or help you to to find out which way you can raise your funds more...
-                  </p>
-
-                  <a href="#" class="btn-link">
-                    <span>Read More</span>
-
-                    <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
-                  </a>
-
-                </div>
-
-              </div>
-            </li>
-
-          </ul>
-
-        </div>
-      </section>
+      <!-- Blog section removed -->
 
 
 
@@ -1808,35 +1707,35 @@
 
         </ul>
 
-        <form action="" class="footer-form">
+        <form id="table-booking-form" class="footer-form" onsubmit="return addTableBookingToCart(event)">
 
-          <p class="footer-list-title">Book a Table</p>
+          <p class="footer-list-title">Book a Table </p>
 
           <div class="input-wrapper">
 
-            <input type="text" name="full_name" required placeholder="Your Name" aria-label="Your Name"
+            <input type="text" name="full_name" id="booking_name" required placeholder="Your Name" aria-label="Your Name"
               class="input-field">
 
-            <input type="email" name="email_address" required placeholder="Email" aria-label="Email"
+            <input type="email" name="email_address" id="booking_email" required placeholder="Email" aria-label="Email"
               class="input-field">
 
           </div>
 
           <div class="input-wrapper">
 
-            <select name="total_person" aria-label="Total person" class="input-field">
-              <option value="person">Person</option>
-              <option value="2 person">2 Person</option>
-              <option value="3 person">3 Person</option>
-              <option value="4 person">4 Person</option>
-              <option value="5 person">5 Person</option>
+            <select name="total_person" id="booking_persons" aria-label="Total person" class="input-field">
+              <option value="1 Person">1 Person</option>
+              <option value="2 Person">2 Person</option>
+              <option value="3 Person">3 Person</option>
+              <option value="4 Person">4 Person</option>
+              <option value="5 Person">5 Person</option>
             </select>
 
-            <input type="date" name="booking_date" aria-label="Reservation date" class="input-field">
+            <input type="date" name="booking_date" id="booking_date" required aria-label="Reservation date" class="input-field">
 
           </div>
 
-          <textarea name="message" required placeholder="Message" aria-label="Message" class="input-field"></textarea>
+          <textarea name="message" id="booking_message" placeholder="Message" aria-label="Message" class="input-field"></textarea>
 
           <button type="submit" class="btn">Book a Table</button>
 
@@ -1882,6 +1781,336 @@
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
+  <!-- Script to handle Order Now buttons -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get all Order Now buttons
+      const orderNowButtons = document.querySelectorAll('button.btn:not(.food-menu-btn):not(.checkout-btn)');
+      
+      // Add click event listener to each button
+      orderNowButtons.forEach(button => {
+        if (button.textContent.trim() === 'Order Now') {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Scroll to pizza menu section
+            document.getElementById('pizza_menu').scrollIntoView({ behavior: 'smooth' });
+          });
+        }
+      });
+    });
+  </script>
+
+  <!-- Inline script for cart functionality -->
+  <script>
+    let cart = [];
+    const GST_RATE = 0.18; // 18% GST
+    const TABLE_BOOKING_PRICE = 0; // Table booking is free
+    
+    function addToCart(name, price) {
+      // Check if item already exists in cart
+      const existingItemIndex = cart.findIndex(item => item.name === name);
+      
+      if (existingItemIndex !== -1) {
+        // If item exists, increase quantity
+        cart[existingItemIndex].quantity += 1;
+      } else {
+        // If item doesn't exist, add new item with quantity 1
+        cart.push({ name, price, quantity: 1 });
+      }
+      
+      // Show notification
+      showAddedToCartNotification(name);
+      
+      // Update cart UI
+      updateCartPopup();
+      updateCartCount();
+    }
+    
+    function addTableBookingToCart(event) {
+      event.preventDefault();
+      
+      // Get form values
+      const name = document.getElementById('booking_name').value;
+      const email = document.getElementById('booking_email').value;
+      const persons = document.getElementById('booking_persons').value;
+      const date = document.getElementById('booking_date').value;
+      const message = document.getElementById('booking_message').value;
+      
+      // Format date for display
+      const formattedDate = new Date(date).toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      
+      // Table booking is 
+      const price = TABLE_BOOKING_PRICE; // Always 0
+      
+      // Create item name with booking details
+      const itemName = `Table Reservation - ${persons} (${formattedDate})`;
+      
+      // Add booking to cart as a special item
+      cart.push({
+        name: itemName,
+        price: price,
+        quantity: 1,
+        isBooking: true,
+        bookingDetails: {
+          name,
+          email,
+          persons,
+          date: formattedDate,
+          message
+        }
+      });
+      
+      // Show notification
+      showAddedToCartNotification("Table Reservation");
+      
+      // Update cart UI
+      updateCartPopup();
+      updateCartCount();
+      
+      // Reset form
+      document.getElementById('table-booking-form').reset();
+      
+      // Open cart to show the booking
+      openCart();
+      
+      return false;
+    }
+    
+    function removeFromCart(index) {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity -= 1;
+      } else {
+        cart.splice(index, 1);
+      }
+      updateCartPopup();
+      updateCartCount();
+    }
+    
+    function showAddedToCartNotification(itemName) {
+      // Create notification element if it doesn't exist
+      let notification = document.getElementById('cart-notification');
+      if (!notification) {
+        notification = document.createElement('div');
+        notification.id = 'cart-notification';
+        document.body.appendChild(notification);
+      }
+      
+      // Set notification content and show it
+      notification.textContent = `${itemName} added to cart!`;
+      notification.className = 'show-notification';
+      
+      // Hide notification after 2 seconds
+      setTimeout(() => {
+        notification.className = '';
+      }, 2000);
+    }
+    
+    function updateCartPopup() {
+      const cartItems = document.getElementById('cart-items');
+      const cartTotal = document.getElementById('cart-total');
+      
+      if (!cartItems || !cartTotal) return;
+      
+      cartItems.innerHTML = '';
+      
+      let subtotal = 0;
+      
+      if (cart.length === 0) {
+        const emptyCartMsg = document.createElement('li');
+        emptyCartMsg.className = 'empty-cart-message';
+        emptyCartMsg.textContent = 'Your cart is empty';
+        cartItems.appendChild(emptyCartMsg);
+        cartTotal.innerHTML = '';
+        return;
+      }
+      
+      cart.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.className = 'cart-item';
+        
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+        
+        if (item.isBooking) {
+          // Special display for table bookings
+          li.className = 'cart-item booking-item';
+          li.innerHTML = `
+            <div class="cart-item-details">
+              <span class="cart-item-name">${item.name}</span>
+              <div class="booking-details">
+                <p><strong>Name:</strong> ${item.bookingDetails.name}</p>
+                <p><strong>Date:</strong> ${item.bookingDetails.date}</p>
+                ${item.bookingDetails.message ? `<p><strong>Message:</strong> ${item.bookingDetails.message}</p>` : ''}
+              </div>
+              <span class="cart-item-price"><span>Free</span> <span class="free-badge">🎉</span></span>
+            </div>
+            <div class="cart-item-total"><span>Free</span></div>
+            <div class="cart-item-actions">
+              <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
+            </div>
+          `;
+        } else {
+          // Regular food items
+          li.innerHTML = `
+            <div class="cart-item-details">
+              <span class="cart-item-name">${item.name}</span>
+              <span class="cart-item-price">₹${item.price} × ${item.quantity}</span>
+            </div>
+            <div class="cart-item-total">₹${itemTotal}</div>
+            <div class="cart-item-actions">
+              <button class="cart-item-remove" onclick="removeFromCart(${index})">−</button>
+              <button class="cart-item-add" onclick="addToCart('${item.name}', ${item.price})">+</button>
+            </div>
+          `;
+        }
+        
+        cartItems.appendChild(li);
+      });
+      
+      // Calculate GST and total
+      const gstAmount = subtotal * GST_RATE;
+      const total = subtotal + gstAmount;
+      
+      // Display the totals
+      cartTotal.innerHTML = `
+        <div class="cart-totals">
+          <div class="cart-subtotal">
+            <span>Subtotal:</span>
+            <span>₹${subtotal.toFixed(2)}</span>
+          </div>
+          <div class="cart-gst">
+            <span>GST (18%):</span>
+            <span>₹${gstAmount.toFixed(2)}</span>
+          </div>
+          <div class="cart-final-total">
+            <span>Total:</span>
+            <span>₹${total.toFixed(2)}</span>
+          </div>
+          <button class="checkout-btn" onclick="showOrderConfirmation()">Proceed to Checkout</button>
+        </div>
+      `;
+    }
+    
+    function updateCartCount() {
+      const cartCount = document.querySelector('.iconcart span');
+      if (!cartCount) return;
+      
+      // Calculate total quantity of items
+      const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+      cartCount.textContent = totalItems;
+    }
+    
+    // Add openCart and closeCart functions
+    function openCart() {
+      console.log('Opening cart from inline script...');
+      const cartPopup = document.getElementById('cart-popup');
+      if (cartPopup) {
+        cartPopup.style.display = 'flex';
+        updateCartPopup();
+      } else {
+        console.error('Cart popup not found in openCart function');
+      }
+    }
+    
+    function closeCart() {
+      console.log('Closing cart from inline script...');
+      const cartPopup = document.getElementById('cart-popup');
+      if (cartPopup) {
+        cartPopup.style.display = 'none';
+      } else {
+        console.error('Cart popup not found in closeCart function');
+      }
+    }
+    
+    // Test function to directly show cart
+    function testShowCart() {
+      const cartPopup = document.getElementById('cart-popup');
+      if (cartPopup) {
+        cartPopup.style.display = 'flex';
+        console.log('Cart popup shown via test function');
+      } else {
+        console.error('Cart popup not found in test function');
+      }
+    }
+    
+    // Initialize cart count on page load and fix header
+    document.addEventListener('DOMContentLoaded', function() {
+      updateCartCount();
+      
+      // Ensure the header is always visible
+      const header = document.querySelector("[data-header]");
+      if (header) {
+        // Add padding to the body to account for the fixed header
+        document.body.style.paddingTop = header.offsetHeight + 'px';
+      }
+      
+      // Add event listener to close cart when clicking outside
+      const cartPopup = document.getElementById('cart-popup');
+      if (cartPopup) {
+        cartPopup.addEventListener('click', function(event) {
+          // If the click is on the background (not on the cart content)
+          if (event.target === cartPopup) {
+            closeCart();
+          }
+        });
+      }
+      
+      // Function to redirect to the order confirmation page
+    });
+
+    // Order confirmation function - moved outside document ready to be globally accessible
+    function showOrderConfirmation() {
+      // First close the cart popup if it's open
+      const cartPopup = document.getElementById('cart-popup');
+      if (cartPopup) {
+        cartPopup.style.display = 'none';
+      }
+      
+      // Check if there are any items in the cart
+      if (cart.length === 0) {
+        alert('Your cart is empty. Please add items before checkout.');
+        return;
+      }
+      
+      // Calculate order totals
+      let subtotal = 0;
+      let hasTableBooking = false;
+      
+      cart.forEach(item => {
+        subtotal += item.price * item.quantity;
+        if (item.isBooking) {
+          hasTableBooking = true;
+        }
+      });
+      
+      const gstAmount = subtotal * GST_RATE;
+      const total = subtotal + gstAmount;
+      
+      // Save order details to localStorage for the confirmation page
+      const orderDetails = {
+        items: cart,
+        subtotal: subtotal,
+        gst: gstAmount,
+        hasTableBooking: hasTableBooking,
+        total: total
+      };
+      
+      localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+      localStorage.setItem('orderPlaced', 'true');
+      
+      // Clear the cart
+      cart = [];
+      updateCartCount();
+      
+      // Redirect to the order confirmation page
+      window.location.href = 'order-confirmation.html';
+    }
+  </script>
 </body>
 
 </html>
